@@ -8,12 +8,18 @@
 
 import UIKit
 
+
+protocol repoDetailsDelegate {
+    func openRepoDetails(objItemNew:RepositoryListModel);
+}
+
 class ContributorDetailsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet var tableVW: UITableView!
     @IBOutlet var ContributorImage: UIImageView!
     var objiContributor:ContributorsListModel?
     var arrItems = [RepositoryListModel]()
+    var repodelagate:repoDetailsDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,7 +79,9 @@ class ContributorDetailsViewController: UIViewController,UITableViewDelegate,UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
+        let objItems = arrItems[indexPath.row]
+        self.repodelagate?.openRepoDetails(objItemNew:objItems)
+        self.navigationController?.popViewController(animated: true)
         
     }
     

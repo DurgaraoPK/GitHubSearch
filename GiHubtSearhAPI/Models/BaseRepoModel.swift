@@ -21,50 +21,50 @@ struct BaseRepoModel: Codable {
 }
 
 struct Item: Codable {
-    let id: Int
-    let nodeID, name, fullName: String
-    let itemPrivate: Bool
-    let owner: Owner
-    let htmlURL: String?
-    let description: String?
-    let fork: Bool
-    let url: String?
-    let forksURL: String?
-    let keysURL, collaboratorsURL: String?
-    let teamsURL, hooksURL: String?
-    let issueEventsURL: String?
-    let eventsURL: String?
-    let assigneesURL, branchesURL: String?
-    let tagsURL: String?
-    let blobsURL, gitTagsURL, gitRefsURL, treesURL: String?
-    let statusesURL: String?
-    let languagesURL, stargazersURL, contributorsURL, subscribersURL: String?
-    let subscriptionURL: String?
-    let commitsURL, gitCommitsURL, commentsURL, issueCommentURL: String?
-    let contentsURL, compareURL: String?
-    let mergesURL: String?
-    let archiveURL: String?
-    let downloadsURL: String?
-    let issuesURL, pullsURL, milestonesURL, notificationsURL: String?
-    let labelsURL, releasesURL: String?
-    let deploymentsURL: String?
-    let createdAt, updatedAt, pushedAt: String?
-    let gitURL, sshURL: String?
-    let cloneURL: String?
-    let svnURL: String?
-    let homepage: String?
-    let size, stargazersCount, watchersCount: Int
-    let language: String?
-    let hasIssues, hasProjects, hasDownloads, hasWiki: Bool
-    let hasPages: Bool
-    let forksCount: Int
-    let mirrorURL: JSONNull?
-    let archived: Bool
-    let openIssuesCount: Int
-    let license: License?
-    let forks, openIssues, watchers: Int
-    let defaultBranch: String?
-    let score: Double
+    var id: Int
+    var nodeID, name, fullName: String
+    var itemPrivate: Bool
+    var owner: Owner
+    var htmlURL: String?
+    var description: String?
+    var fork: Bool
+    var url: String?
+    var forksURL: String?
+    var keysURL, collaboratorsURL: String?
+    var teamsURL, hooksURL: String?
+    var issueEventsURL: String?
+    var eventsURL: String?
+    var assigneesURL, branchesURL: String?
+    var tagsURL: String?
+    var blobsURL, gitTagsURL, gitRefsURL, treesURL: String?
+    var statusesURL: String?
+    var languagesURL, stargazersURL, contributorsURL, subscribersURL: String?
+    var subscriptionURL: String?
+    var commitsURL, gitCommitsURL, commentsURL, issueCommentURL: String?
+    var contentsURL, compareURL: String?
+    var mergesURL: String?
+    var archiveURL: String?
+    var downloadsURL: String?
+    var issuesURL, pullsURL, milestonesURL, notificationsURL: String?
+    var labelsURL, releasesURL: String?
+    var deploymentsURL: String?
+    var createdAt, updatedAt, pushedAt: String?
+    var gitURL, sshURL: String?
+    var cloneURL: String?
+    var svnURL: String?
+    var homepage: String?
+    var size, stargazersCount, watchersCount: Int
+    var language: String?
+    var hasIssues, hasProjects, hasDownloads, hasWiki: Bool
+    var hasPages: Bool
+    var forksCount: Int
+    var mirrorURL: JSONNull?
+    var archived: Bool
+    var openIssuesCount: Int
+    var license: License?
+    var forks, openIssues, watchers: Int
+    var defaultBranch: String?
+    var score: Double
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -199,7 +199,7 @@ struct Owner: Codable {
     let login: String?
     let id: Int
     let nodeID: String?
-    let avatarURL: String?
+    var avatarURL: String?
     let gravatarID: String?
     let url, htmlURL, followersURL: String?
     let followingURL, gistsURL, starredURL: String?

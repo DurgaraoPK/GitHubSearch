@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class ContributorViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     @IBOutlet var btnProjectLink: UIButton!
@@ -17,19 +19,24 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
     @IBOutlet var lblName: UILabel!
     var objitemBo:Item?
     var Contributor = [ContributorsListModel]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         
         setupUI()
-        setupAPI()
+        if let urlStringctr = objitemBo?.contributorsURL{
+            setupAPI(urlStringctr: urlStringctr)
+        }
+        
         
         
     }
-    func setupAPI(){
-        let urlStringctr = objitemBo?.contributorsURL
-        ContributorsService.getPosts(str: urlStringctr!) { (Response) in
+    func setupAPI(urlStringctr:String){
+        
+        ContributorsService.getPosts(str: urlStringctr) { (Response) in
             self.Contributor = Response
             self.CollectionVW.reloadData()
             
@@ -92,6 +99,7 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContributorDetailsVC") as? ContributorDetailsViewController
         vc?.objiContributor = Contributor[indexPath.row]
+        vc?.repodelagate = self
         
         self.navigationController?.pushViewController(vc!, animated: true)
         
@@ -111,15 +119,32 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
         let url = URL(string:urlStr as String)
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
     
+}
+
+
+extension ContributorViewController:repoDetailsDelegate{
+    func openRepoDetails(objItemNew: RepositoryListModel) {
+        lblName.text = objItemNew.name?.capitalized
+        decsriptionText.text = objItemNew.description
+        btnProjectLink.setTitle(objItemNew.svnURL, for: .normal)
+        
+        self.navigationItem.title = objItemNew.name?.capitalized
+        
+        let urlString = objItemNew.owner.avatarURL
+        let urlStr:NSString = urlString!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! as NSString
+        
+        let url = URL(string:urlStr as String)
+        let strurl = url?.absoluteString
+        //        imageContributor.load.request(with: url!)
+        
+        imageContributor.loadImageAsync(with: strurl, placeholder: "noimage_placeholder")
+        
+        
+        if let urlStringctr = objItemNew.contributorsURL{
+            setupAPI(urlStringctr: urlStringctr)
+        }
+        
+    }
 }
