@@ -9,7 +9,7 @@
 import UIKit
 
 class ContributorViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-
+    
     @IBOutlet var btnProjectLink: UIButton!
     @IBOutlet var decsriptionText: UITextView!
     @IBOutlet var CollectionVW: UICollectionView!
@@ -19,42 +19,48 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
     var Contributor = [ContributorsListModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
-        lblName.text = objitemBo?.name
+        
+        setupUI()
+        setupAPI()
+        
+        
+    }
+    func setupAPI(){
+        let urlStringctr = objitemBo?.contributorsURL
+        ContributorsService.getPosts(str: urlStringctr!) { (Response) in
+            self.Contributor = Response
+            self.CollectionVW.reloadData()
+            
+        }
+        
+    }
+    
+    func setupUI(){
+        lblName.text = objitemBo?.name.capitalized
         decsriptionText.text = objitemBo?.description
         btnProjectLink.setTitle(objitemBo?.svnURL, for: .normal)
+        
+        self.navigationItem.title = objitemBo?.name.capitalized
         
         let urlString = objitemBo?.owner.avatarURL
         let urlStr:NSString = urlString!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! as NSString
         
         let url = URL(string:urlStr as String)
         let strurl = url?.absoluteString
-//        imageContributor.load.request(with: url!)
+        //        imageContributor.load.request(with: url!)
         
         imageContributor.loadImageAsync(with: strurl, placeholder: "noimage_placeholder")
-        
-        
-        
-        let urlStringctr = objitemBo?.contributorsURL
-        ContributorsService.getPosts(str: urlStringctr!) { (Response) in
-            
-            self.Contributor = Response
-            self.CollectionVW.reloadData()
-            
-        }
-        
-        
-        
-        
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     
     
     
@@ -86,6 +92,7 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContributorDetailsVC") as? ContributorDetailsViewController
         vc?.objiContributor = Contributor[indexPath.row]
+        
         self.navigationController?.pushViewController(vc!, animated: true)
         
     }
@@ -105,14 +112,14 @@ class ContributorViewController: UIViewController,UICollectionViewDelegate,UICol
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+    
 }
