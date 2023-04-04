@@ -72,7 +72,7 @@ class ViewController: UIViewController,UISearchBarDelegate,UIPopoverControllerDe
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-         print("Dismissed")
+         print("Dismissed controller")
         
     }
     override func didReceiveMemoryWarning() {
